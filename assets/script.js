@@ -32,13 +32,20 @@ var getCityWeather = function (city) {
     // Contains info necessary to fetch weather info from OpenWeather One Call API
 
     var apiKey = "ae272275ce874ef7b48d818cfa8d90e6";
-    var apiURL = 'https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}';
+    var apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
     
     // Fetches said information and converts it to JSON so it may be fed to displayWeather function
 
-    fetch(apiURL).then(function (response) {
-        response.json().then(function (data) {
+    fetch(apiURL)
+
+        .then(function (response) {
+
+        response.json()
+            
+            .then(function (data) {
+
             displayWeather(data, city);
+
         });
     });
 };
@@ -93,17 +100,24 @@ var displayWeather = function (weather, searchCity) {
 };
 
 var getUvIndex = function(lat,lon){
+    
     var apiKey = "ae272275ce874ef7b48d818cfa8d90e6"
     var apiURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
+
     fetch(apiURL)
-    .then(function(response){
-        response.json().then(function(data){
+
+        .then(function(response){
+
+        response.json()
+
+            .then(function(data){
+
             displayUvIndex(data)
-           // console.log(data)
+
         });
     });
-    //console.log(lat);
-    //console.log(lon);
 }
+
+// displayUvIndex
 
 cityFormEl.addEventListener("submit", formSumbitHandler);
