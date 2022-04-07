@@ -92,8 +92,18 @@ var displayWeather = function (weather, searchCity) {
     getUvIndex(lat, lon);
 };
 
-function getUvIndex() {
-
+var getUvIndex = function(lat,lon){
+    var apiKey = "ae272275ce874ef7b48d818cfa8d90e6"
+    var apiURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
+    fetch(apiURL)
+    .then(function(response){
+        response.json().then(function(data){
+            displayUvIndex(data)
+           // console.log(data)
+        });
+    });
+    //console.log(lat);
+    //console.log(lon);
 }
 
 cityFormEl.addEventListener("submit", formSumbitHandler);
