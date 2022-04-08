@@ -24,7 +24,7 @@ var formSubmitHandler = function (event) {
     }
 
     localSaveSearch();
-    historySearch();
+    historySearch(city);
 
 };
 
