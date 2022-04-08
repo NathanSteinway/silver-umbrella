@@ -23,7 +23,8 @@ Simply fork the repository and contact me using the information below.
 This project can be tested by visiting the link included above.
   ## Licenses
 
-
+  ## Screenshot
+![firefox_A7hc5M7vet](https://user-images.githubusercontent.com/93408466/162350636-fbc07285-1d71-4d80-a185-64632c7af9e8.png)
 
   ## Username
 [NathanSteinway](https://www.github.com/NathanSteinway)
