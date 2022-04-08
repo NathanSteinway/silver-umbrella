@@ -191,7 +191,7 @@ var display5DayForecast = function(weather) {
 
     // Creates an h5 element. This element will contain textContent equal to the date as determined by Moment.js. It will then be assigned bootstrap styling then it will be appended to the div above.
     var forecastDate = document.createElement("h5")
-    forecastDate.textContent= " (" + moment(weather.dt.value).format("MMM D, YYYY") + ") ";
+    forecastDate.textContent= moment.unix(dailyForecast.dt).format("MMM D, YYYY");
     forecastDate.classList = "card-header text-center"
     forecastEl.appendChild(forecastDate);
 
