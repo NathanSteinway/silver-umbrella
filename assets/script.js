@@ -212,13 +212,13 @@ var display5DayForecast = function(weather) {
     // Creats span w/ bootstrap styling that contains the wind speed pulled from main
     var forecastWindEl = document.createElement("span");
     forecastWindEl.classList = "card-body text-center";
-    forecastWindEl.textContent = dailyForecast.main.wind + " MPH";
+    forecastWindEl.textContent = "Wind: " + dailyForecast.wind.speed + " MPH";
     forecastEl.appendChild(forecastWindEl);
 
     // Creates span w/ bootstrap styling that contains the humidity percentage pulled from main
     var forecastHumEl=document.createElement("span");
     forecastHumEl.classList = "card-body text-center";
-    forecastHumEl.textContent = dailyForecast.main.humidity + "  % Humidity";
+    forecastHumEl.textContent = "Humidity: " + dailyForecast.main.humidity + " %";
 
     // Append the above to our forecast container
     forecastEl.appendChild(forecastHumEl);
