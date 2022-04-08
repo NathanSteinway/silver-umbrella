@@ -66,7 +66,7 @@ var displayWeather = function (weather, searchCity) {
     var currentDate = document.createElement("span");
 
     // Moment.js is used to set the current date
-    currentDate.textContent = "(" + moment(weather.dt.value).format("MMM D, YYYY") + ") ";
+    currentDate.textContent=" (" + moment(weather.dt.value).format("MMM D, YYYY") + ") ";
     citySearchInputEl.appendChild(currentDate);
 
     // Creates image element for weather icon
