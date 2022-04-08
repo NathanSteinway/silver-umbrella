@@ -4,6 +4,8 @@ var cityFormEl = document.querySelector("#city-search-form");
 var cityInputEl = document.querySelector("#city");
 var weatherContainerEl = document.querySelector("#current-weather-container");
 var citySearchInputEl = document.querySelector("#searched-city");
+var forecastTitle = document.querySelector("#forecast");
+var forecastContainerEl = document.querySelector("#fiveday-container");
 
 var formSubmitHandler = function (event) {
 
@@ -13,6 +15,7 @@ var formSubmitHandler = function (event) {
 
     if (city) {
         getCityWeather(city);
+        get5DayForecast(city);
         cities.unshift({ city });
         cityInputEl.value = "";
     } else {
@@ -100,10 +103,11 @@ var displayWeather = function (weather, searchCity) {
 };
 
 var getUvIndex = function(lat,lon){
-    
+
     var apiKey = "ae272275ce874ef7b48d818cfa8d90e6"
     var apiURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
 
+    // Fetches said information and converts it to JSON so it may be fed to displayUvIndex function
     fetch(apiURL)
 
         .then(function(response){
@@ -118,6 +122,104 @@ var getUvIndex = function(lat,lon){
     });
 }
 
-// displayUvIndex
+var displayUvIndex = function(index){
+
+    // Creates div element that contains text presenting UV Index value
+    var uvIndexEl = document.createElement("div");
+    uvIndexEl.textContent = "UV Index: "
+    uvIndexEl.classList = "list-group-item"
+
+    // Creates span element that contains the UV Index value
+    uvIndexValue = document.createElement("span")
+    uvIndexValue.textContent = index.value
+
+    // If statement that checks index.value then assigns a rating of either favorable, moderate, or severe.
+    if(index.value <=2){
+        uvIndexValue.classList = "favorable"
+    }else if(index.value >2 && index.value<=8){
+        uvIndexValue.classList = "moderate "
+    }
+    else if(index.value >8){
+        uvIndexValue.classList = "severe"
+    };
+
+    // Appends uvIndexValue to uvIndexE1 then appends uvIndexValue to weatherContainerE1 (current weather)
+    uvIndexEl.appendChild(uvIndexValue);
+    weatherContainerEl.appendChild(uvIndexEl);
+};
+
+var get5DayForecast = function(city){
+
+    var apiKey = "ae272275ce874ef7b48d818cfa8d90e6"
+    var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`
+
+    fetch(apiURL)
+
+    .then(function(response){
+
+        response.json()
+            .then(function(data){
+
+           display5DayForecast(data);
+
+        });
+    });
+};
+
+// This function creates a div container that contains our cards then appends it to the 5Day Forecast container
+
+var display5DayForecast = function(weather) {
+
+    // Sets forecastContainerE1 content to an empty string
+    // Sets forecastTitle content to a string containing "5-Day Forecast:"
+    forecastContainerEl.textContent = ""
+    forecastTitle.textContent = "5-Day Forecast:";
+
+    // Loops through the 5-Day weather forecast
+    var forecast = weather.list;
+
+        for(var i=5; i < forecast.length; i=i+8){
+
+    // Sets dailyForecast to the specified spot in the above loop 
+    var dailyForecast = forecast[i];
+        
+    // Creates div element and assigns it a classList filled with bootstrap styling
+    var forecastEl=document.createElement("div");
+    forecastEl.classList = "card bg-primary text-light m-2";
+
+    // Creates an h5 element. This element will contain textContent equal to the date as determined by Moment.js. It will then be assigned bootstrap styling then it will be appended to the div above.
+    var forecastDate = document.createElement("h5")
+    forecastDate.textContent= moment.unix(dailyForecast.dt).format("MMM D, YYYY");
+    forecastDate.classList = "card-header text-center"
+    forecastEl.appendChild(forecastDate);
+
+    // Create image element with boostrap styling that contains an icon provided by OpenWeather One Call API!
+    var weatherIcon = document.createElement("img")
+    weatherIcon.classList = "card-body text-center";
+    weatherIcon.setAttribute("src", `https://openweathermap.org/img/wn/${dailyForecast.weather[0].icon}@2x.png`);  
+
+    // Append the weatherIcon to forecastE1
+    forecastEl.appendChild(weatherIcon);
+    
+    // Creates span w/ bootstrap styling that contains the temperature pulled from main
+    var forecastTempEl=document.createElement("span");
+    forecastTempEl.classList = "card-body text-center";
+    forecastTempEl.textContent = dailyForecast.main.temp + " °F";
+
+    // append the above to our forecast container
+    forecastEl.appendChild(forecastTempEl);
+
+    // Creates span w/ bootstrap styling that contains the humidity percentage pulled from main
+    var forecastHumEl=document.createElement("span");
+    forecastHumEl.classList = "card-body text-center";
+    forecastHumEl.textContent = dailyForecast.main.humidity + "  %";
+
+    // Append the above to our forecast container
+    forecastEl.appendChild(forecastHumEl);
+
+    // Append our forecast container to the 5DForecast container so that all 5 days may be displayed side by side.
+    forecastContainerEl.appendChild(forecastEl);
+    }
+};
 
 cityFormEl.addEventListener("submit", formSumbitHandler);
