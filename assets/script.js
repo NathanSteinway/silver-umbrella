@@ -222,4 +222,4 @@ var display5DayForecast = function(weather) {
     }
 };
 
-cityFormEl.addEventListener("submit", formSumbitHandler);
+cityFormEl.addEventListener("submit", formSubmitHandler);
