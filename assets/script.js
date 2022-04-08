@@ -6,6 +6,7 @@ var weatherContainerEl = document.querySelector("#current-weather-container");
 var citySearchInputEl = document.querySelector("#searched-city");
 var forecastTitle = document.querySelector("#forecast");
 var forecastContainerEl = document.querySelector("#fiveday-container");
+var historySearchButtonEl = document.querySelector("#history-search-buttons");
 
 var formSubmitHandler = function (event) {
 
@@ -23,6 +24,7 @@ var formSubmitHandler = function (event) {
     }
 
     localSaveSearch();
+    historySearch();
 
 };
 
@@ -228,4 +230,24 @@ var display5DayForecast = function(weather) {
     }
 };
 
+var historySearch = function(historySearch){
+
+    historySearchEl = document.createElement("button");
+    historySearchEl.textContent = historySearch;
+    historySearchEl.classList = "d-flex w-100 btn-light border p-2";
+    historySearchEl.setAttribute("data-city", historySearch);
+    historySearchEl.setAttribute("type", "submit");
+
+    historySearchButtonEl.prepend(historySearchEl);
+};
+
+var historySearchHandler = function(event){
+    var city = event.target.getAttribute("data-city")
+    if(city){
+        getCityWeather(city);
+        get5DayForecast(city);
+    }
+};
+
 cityFormEl.addEventListener("submit", formSubmitHandler);
+historySearchButtonEl.addEventListener("click", historySearchHandler);
